@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Enter Your Name ❤️</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: radial-gradient(circle at top, #ffeef6, #ffd6e7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .card {
+            background: #ffffffcc;
+            backdrop-filter: blur(10px);
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+            width: 90%;
+            max-width: 400px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 26px;
+            color: #ff3b7a;
+        }
+
+        input {
+            width: 80%;
+            padding: 12px 15px;
+            font-size: 16px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #ff3b7a;
+            box-shadow: 0 0 6px rgba(255, 59, 122, 0.4);
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            background: #ff3b7a;
+            color: white;
+            margin: 5px;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background: #ff1f68;
+        }
+
+        .url-container {
+            margin-top: 20px;
+            font-size: 14px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .url-container input {
+            width: 100%;
+            text-align: center;
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .url-container input:focus {
+            border-color: #ff3b7a;
+            box-shadow: 0 0 4px rgba(255, 59, 122, 0.4);
+        }
+
+        .hint {
+            font-size: 13px;
+            color: #555;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h2>Enter Your Name ❤️</h2>
+        <input id="nameInput" placeholder="Your name" />
+        <div>
+            <button onclick="saveUser()">Generate URL</button>
+        </div>
+
+        <div class="url-container" id="urlContainer">
+            <input id="generatedUrl" readonly />
+            <button onclick="copyUrl()">Copy URL</button>
+            <button onclick="goToUrl()">Continue</button>
+            <div class="hint">Share this link or continue to your page.</div>
+        </div>
+    </div>
+
+    <script>
+        // If user already exists in localStorage, redirect
+        const existing = localStorage.getItem("user");
+        if (existing) {
+            window.location.href = "/valentine.html?user=" + existing;
+        }
+
+        function saveUser() {
+            const name = document.getElementById("nameInput").value.trim();
+            if (!name) return alert("Enter a name");
+
+            // Convert name → Base64 (UTF-8 safe)
+            const base64Name = btoa(unescape(encodeURIComponent(name)));
+
+            // Save locally
+            localStorage.setItem("user", base64Name);
+
+            // Generate final URL
+            const fullUrl = window.location.href +
+                "/valentine.html?user=" + encodeURIComponent(base64Name);
+
+            const urlInput = document.getElementById("generatedUrl");
+            urlInput.value = fullUrl;
+
+            document.getElementById("urlContainer").style.display = "flex";
+        }
+
+        function copyUrl() {
+            const urlInput = document.getElementById("generatedUrl");
+            navigator.clipboard.writeText(urlInput.value)
+                .then(() => alert("URL copied!"))
+                .catch(() => alert("Failed to copy"));
+        }
+
+        function goToUrl() {
+            const base64Name = localStorage.getItem("user");
+            if (!base64Name) return;
+
+            window.location.href =
+                "/valentine.html?user=" + encodeURIComponent(base64Name);
+        }
+    </script>
+
+</body>
+
+</html>
