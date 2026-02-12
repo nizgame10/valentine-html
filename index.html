@@ -117,7 +117,7 @@
         // If user already exists in localStorage, redirect
         const existing = localStorage.getItem("user");
         if (existing) {
-            window.location.href = "/valentine.html?user=" + existing;
+            window.location.href = window.location.href + "valentine.html?user=" + existing;
         }
 
         function saveUser() {
@@ -132,7 +132,7 @@
 
             // Generate final URL
             const fullUrl = window.location.href +
-                "/valentine.html?user=" + encodeURIComponent(base64Name);
+                "valentine.html?user=" + encodeURIComponent(base64Name);
 
             const urlInput = document.getElementById("generatedUrl");
             urlInput.value = fullUrl;
@@ -151,8 +151,8 @@
             const base64Name = localStorage.getItem("user");
             if (!base64Name) return;
 
-            window.location.href =
-                "/valentine.html?user=" + encodeURIComponent(base64Name);
+            window.location.href =window.location.href +
+                "valentine.html?user=" + encodeURIComponent(base64Name);
         }
     </script>
 
