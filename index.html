@@ -116,10 +116,14 @@
     <script>
         // If user already exists in localStorage, redirect
         const existing = localStorage.getItem("user");
-        if (existing) {
-            window.location.href = window.location.href + "valentine.html?user=" + existing;
-        }
 
+        if (existing) {
+            if (window.location.origin.includes("github.io")) {
+                window.location.href = "/valentine-html/valentine.html?user=" + existing;
+            } else {
+                window.location.href = "/valentine.html?user=" + existing;
+            }
+        }
         function saveUser() {
             const name = document.getElementById("nameInput").value.trim();
             if (!name) return alert("Enter a name");
@@ -151,7 +155,7 @@
             const base64Name = localStorage.getItem("user");
             if (!base64Name) return;
 
-            window.location.href = 
+            window.location.href =
                 "/valentine.html?user=" + encodeURIComponent(base64Name);
         }
     </script>
